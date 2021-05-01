@@ -46,7 +46,7 @@ class Deconvolution(ImageTransform):
             
             for channel in range(3):
                 if use_median:
-                    mean_sum[channel] += x[..., channel].median()
+                    mean_sum[channel] += np.median(x[..., channel])
                 else:
                     mean_sum[channel] += x[..., channel].mean()
                 var_sum[channel] += x[..., channel].var()
