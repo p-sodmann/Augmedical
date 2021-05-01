@@ -51,7 +51,7 @@ class Deconvolution(ImageTransform):
                     mean_sum[channel] += x[..., channel].mean()
                 var_sum[channel] += x[..., channel].var()
 
-                count += 1
+            count += 1
 
         mean = np.array(mean_sum)/count
         std = np.sqrt(np.array(var_sum)/count)
