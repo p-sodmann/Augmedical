@@ -50,7 +50,7 @@ class Deconvolution(ImageTransform):
 
                 count += 1
 
-        mean = np.array(mean_sum)/count)
+        mean = np.array(mean_sum)/count
         std = np.sqrt(np.array(var_sum)/count))
         
         return mean, std
