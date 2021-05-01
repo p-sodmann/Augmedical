@@ -36,7 +36,7 @@ class Deconvolution(ImageTransform):
 
         return x
     
-    def fit(self, x_stack):
+    def fit(self, x_stack, use_median=False):
         mean_sum = [0,0,0]
         var_sum = [0,0,0]
         count = 0
@@ -45,7 +45,10 @@ class Deconvolution(ImageTransform):
             x = separate_stains(x, hpx_from_rgb)
             
             for channel in range(3):
-                mean_sum[channel] += x[..., channel].mean()
+                if use_median:
+                    mean_sum[channel] += x[..., channel].median()
+                else:
+                    mean_sum[channel] += x[..., channel].mean()
                 var_sum[channel] += x[..., channel].var()
 
                 count += 1
