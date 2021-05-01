@@ -30,22 +30,32 @@ class Deconvolution(ImageTransform):
     def __init__(self):
         super().__init__(p=1)
 
-    def apply(self, x):
+    def apply(self, x, mean=[0,0,0], std=[1,1,1]):
         x = separate_stains(x, hpx_from_rgb)
-
-        for channel in range(3):
-            x[..., channel] = rescale_intensity(
-                x[..., channel],
-                out_range=(-1, 1),
-                in_range=(
-                    np.percentile(x[..., channel], 1),
-                    np.percentile(x[..., channel], 99),
-                ),
-            )
+        x = (x - mean)/std
 
         return x
+    
+    def fit(self, x_stack):
+        mean_sum = [0,0,0]
+        var_sum = [0,0,0]
+        count = 0
+        
+        for x in x_stack:
+            x = separate_stains(x, hpx_from_rgb)
+            
+            for channel in range(3):
+                mean_sum[channel] += img[..., channel].mean()
+                var_sum[channel] += img[..., channel].var()
 
+                count += 1
 
+        mean = np.array(mean_sum)/count)
+        std = np.sqrt(np.array(var_sum)/count))
+        
+        return mean, std
+            
+            
 class Desaturation:
     def __init__(
         self,
