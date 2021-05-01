@@ -45,8 +45,8 @@ class Deconvolution(ImageTransform):
             x = separate_stains(x, hpx_from_rgb)
             
             for channel in range(3):
-                mean_sum[channel] += img[..., channel].mean()
-                var_sum[channel] += img[..., channel].var()
+                mean_sum[channel] += x[..., channel].mean()
+                var_sum[channel] += x[..., channel].var()
 
                 count += 1
 
